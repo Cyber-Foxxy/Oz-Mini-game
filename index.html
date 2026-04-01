@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>🌈 Emerald Path Adventure</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emerald Path Adventure</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <main class="page">
+    <h1>🌈 Emerald Path Adventure 🌈</h1>
+    <p class="subtitle">Use the arrow keys or WASD to guide Dorothy. Avoid the flying monkeys and the glowing orb, then make your way toward Emerald City.</p>
 
-<h1>🌈 Emerald Path Adventure 🌈</h1>
+    <div class="controls">
+      <button id="playMusicBtn" type="button">Play Music</button>
+      <button id="pauseMusicBtn" type="button">Pause Music</button>
+      <button id="restartBtn" type="button">Restart Game</button>
+    </div>
 
-<button onclick="playMusic()">🎵 Play Music</button>
+    <audio id="bgMusic" controls loop preload="auto">
+      <source src="audio/wicked-theme.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
 
-<audio id="music" controls loop>
-    <source src="audio/wicked.mp3" type="audio/mpeg">
-    <!-- fallback -->
-    <source src="audio/wicked.wav" type="audio/wav">
-    Your browser does not support audio.
-</audio>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-<canvas id="gameCanvas" width="800" height="600"></canvas>
+    <section class="instructions">
+      <h2>How to Play</h2>
+      <p>Move Dorothy with the keyboard. Reach Emerald City while avoiding the neon green orb and the flying monkeys. Collisions make the background flash pink and briefly enlarge the characters.</p>
+    </section>
+  </main>
 
-<p>Use arrow keys to guide Dorothy. Avoid monkeys and the glowing orb!</p>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
