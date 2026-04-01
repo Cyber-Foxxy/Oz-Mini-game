@@ -12,14 +12,10 @@ const images = {
   city: new Image()
 };
 
-
 images.path.src = "images/yellow-brick-road.webp";
 images.intro.src = "images/wizard-of-oz.webp";
 images.city.src = "images/emerald-castle.jpg";
 
-// =======================
-// CLASS
-// =======================
 class CanvasObject {
   constructor({
     x,
@@ -66,39 +62,35 @@ class CanvasObject {
 
   clampToCanvas() {
     if (this.kind === "orb") {
-      if (this.x < this.radius) this.x = this.radius;
-      if (this.x > canvas.width - this.radius) this.x = canvas.width - this.radius;
-      if (this.y < this.radius) this.y = this.radius;
-      if (this.y > canvas.height - this.radius) this.y = canvas.height - this.radius;
+      this.x = clamp(this.x, this.radius, canvas.width - this.radius);
+      this.y = clamp(this.y, this.radius, canvas.height - this.radius);
       return;
     }
 
-    if (this.x < 0) this.x = 0;
-    if (this.y < 0) this.y = 0;
-    if (this.x + this.width > canvas.width) this.x = canvas.width - this.width;
-    if (this.y + this.height > canvas.height) this.y = canvas.height - this.height;
+    this.x = clamp(this.x, 0, canvas.width - this.width);
+    this.y = clamp(this.y, 0, canvas.height - this.height);
   }
 
   bounceOnEdges() {
     if (this.kind === "orb") {
       if (this.x - this.radius <= 0 || this.x + this.radius >= canvas.width) {
         this.speedX *= -1;
-        this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
       }
       if (this.y - this.radius <= 0 || this.y + this.radius >= canvas.height) {
         this.speedY *= -1;
-        this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
       }
+      this.clampToCanvas();
       return;
     }
 
     if (this.x <= 0 || this.x + this.width >= canvas.width) {
       this.speedX *= -1;
-      this.x = Math.max(0, Math.min(canvas.width - this.width, this.x));
+      this.x = clamp(this.x, 0, canvas.width - this.width);
     }
+
     if (this.y <= 0 || this.y + this.height >= canvas.height) {
       this.speedY *= -1;
-      this.y = Math.max(0, Math.min(canvas.height - this.height, this.y));
+      this.y = clamp(this.y, 0, canvas.height - this.height);
     }
   }
 
@@ -162,9 +154,6 @@ class CanvasObject {
   }
 }
 
-// =======================
-// HELPERS
-// =======================
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -209,25 +198,20 @@ function drawOrb(orb) {
 }
 
 function drawMonkey(monkey) {
-  // wings
   ctx.fillStyle = "rgba(210,210,210,0.55)";
   ctx.fillRect(monkey.x - 8, monkey.y + 8, 8, 10);
   ctx.fillRect(monkey.x + monkey.width, monkey.y + 8, 8, 10);
 
-  // body
   ctx.fillStyle = monkey.color;
   ctx.fillRect(monkey.x, monkey.y, monkey.width, monkey.height);
 
-  // ears
   ctx.fillStyle = "#3a2418";
   ctx.fillRect(monkey.x + 4, monkey.y - 4, 6, 6);
   ctx.fillRect(monkey.x + monkey.width - 10, monkey.y - 4, 6, 6);
 
-  // face
   ctx.fillStyle = "#d7b08a";
   ctx.fillRect(monkey.x + 8, monkey.y + 10, 24, 16);
 
-  // eyes
   ctx.fillStyle = "white";
   ctx.fillRect(monkey.x + 11, monkey.y + 12, 5, 5);
   ctx.fillRect(monkey.x + 24, monkey.y + 12, 5, 5);
@@ -236,14 +220,10 @@ function drawMonkey(monkey) {
   ctx.fillRect(monkey.x + 13, monkey.y + 14, 2, 2);
   ctx.fillRect(monkey.x + 26, monkey.y + 14, 2, 2);
 
-  // mouth
   ctx.fillStyle = "#5a2a1a";
   ctx.fillRect(monkey.x + 17, monkey.y + 20, 6, 2);
 }
 
-// =======================
-// PLAYER + COMPANIONS
-// =======================
 const dorothy = new CanvasObject({
   x: 110,
   y: 430,
@@ -274,11 +254,11 @@ const dorothy = new CanvasObject({
 });
 
 const scarecrow = new CanvasObject({
-  x: 100,
-  y: 90,
-  width: 48,
-  height: 38,
-  pixelSize: 4,
+  x: 60,
+  y: 70,
+  width: 20,
+  height: 10,
+  pixelSize: 2,
   pixels: [
     "...7777...",
     "..777777..",
@@ -298,9 +278,9 @@ const scarecrow = new CanvasObject({
 const tinMan = new CanvasObject({
   x: 330,
   y: 85,
-  width: 48,
-  height: 38,
-  pixelSize: 4,
+  width: 18,
+  height: 8,
+  pixelSize: 2,
   pixels: [
     "...ddd...",
     "..bdddb..",
@@ -319,9 +299,9 @@ const tinMan = new CanvasObject({
 const lion = new CanvasObject({
   x: 560,
   y: 90,
-  width: 48,
-  height: 38,
-  pixelSize: 4,
+  width: 18,
+  height: 8,
+  pixelSize: 2,
   pixels: [
     "...eeee...",
     "..e4444e..",
@@ -338,9 +318,6 @@ const lion = new CanvasObject({
   kind: "pixel"
 });
 
-// =======================
-// ENEMIES
-// =======================
 const orb = new CanvasObject({
   x: 420,
   y: 300,
@@ -349,8 +326,6 @@ const orb = new CanvasObject({
   radius: 21,
   color: "rgba(57, 255, 20, 0.95)",
   glowColor: "rgba(57, 255, 20, 0.35)",
-  speedX: 0,
-  speedY: 0,
   kind: "orb"
 });
 
@@ -394,48 +369,40 @@ const goal = {
   height: 84
 };
 
-// =======================
-// GAME STATE
-// =======================
 let collisionFlashFrames = 0;
 let win = false;
 
-// =======================
-// RESET
-// =======================
 function resetGame() {
   dorothy.resetPosition();
   dorothy.setScale(1);
 
   orb.resetPosition();
   orb.setScale(1);
-  orb.speedX = 0;
-  orb.speedY = 0;
 
   monkeys[0].x = 140;
   monkeys[0].y = 170;
   monkeys[0].speedX = 2;
   monkeys[0].speedY = 1.5;
+  monkeys[0].setScale(1);
 
   monkeys[1].x = 620;
   monkeys[1].y = 150;
   monkeys[1].speedX = -2.4;
   monkeys[1].speedY = 1.3;
+  monkeys[1].setScale(1);
 
   monkeys[2].x = 500;
   monkeys[2].y = 420;
   monkeys[2].speedX = 1.8;
   monkeys[2].speedY = -2;
+  monkeys[2].setScale(1);
 
   collisionFlashFrames = 0;
   win = false;
 }
 
-// =======================
-// DRAWING
-// =======================
 function drawBackground() {
-  if (images.path.complete) {
+  if (images.path.complete && images.path.naturalWidth > 0) {
     ctx.drawImage(images.path, 0, 0, canvas.width, canvas.height);
   } else {
     ctx.fillStyle = "#b8e986";
@@ -449,13 +416,13 @@ function drawBackground() {
 
   ctx.fillStyle = "rgba(255,255,255,0.78)";
   ctx.fillRect(12, 12, 150, 84);
-  if (images.intro.complete) {
+  if (images.intro.complete && images.intro.naturalWidth > 0) {
     ctx.drawImage(images.intro, 18, 18, 138, 72);
   }
 
   ctx.fillStyle = "rgba(255,255,255,0.82)";
   ctx.fillRect(goal.x - 6, goal.y - 6, goal.width + 12, goal.height + 12);
-  if (images.city.complete) {
+  if (images.city.complete && images.city.naturalWidth > 0) {
     ctx.drawImage(images.city, goal.x, goal.y, goal.width, goal.height);
   } else {
     ctx.fillStyle = "#74df77";
@@ -497,9 +464,6 @@ function drawCompanions() {
   lion.drawSpeechBubble();
 }
 
-// =======================
-// GAME LOGIC
-// =======================
 function updatePlayerMovement() {
   const moveSpeed = 4;
   if (keys.ArrowUp || keys.w || keys.W) dorothy.y -= moveSpeed;
@@ -538,6 +502,7 @@ function updateCollisionEffects() {
   for (const monkey of monkeys) {
     if (hasCollided(dorothy, monkey)) {
       monkeyHit = true;
+      break;
     }
   }
 
@@ -577,9 +542,6 @@ function updateWinState() {
   }
 }
 
-// =======================
-// ANIMATION LOOP
-// =======================
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
@@ -594,20 +556,15 @@ function animate() {
 
   drawCompanions();
   dorothy.draw();
-
   for (const monkey of monkeys) {
     monkey.draw();
   }
-
   orb.draw();
   drawHud();
 
   requestAnimationFrame(animate);
 }
 
-// =======================
-// EVENTS
-// =======================
 window.addEventListener("keydown", (event) => {
   keys[event.key] = true;
 });
@@ -616,20 +573,23 @@ window.addEventListener("keyup", (event) => {
   keys[event.key] = false;
 });
 
-playMusicBtn.addEventListener("click", () => {
-  bgMusic.play().catch(() => {
-    console.log("Audio playback was blocked until user interaction.");
+if (playMusicBtn) {
+  playMusicBtn.addEventListener("click", () => {
+    bgMusic.play().catch(() => {
+      console.log("Audio playback was blocked until user interaction.");
+    });
   });
-});
+}
 
-pauseMusicBtn.addEventListener("click", () => {
-  bgMusic.pause();
-});
+if (pauseMusicBtn) {
+  pauseMusicBtn.addEventListener("click", () => {
+    bgMusic.pause();
+  });
+}
 
-restartBtn.addEventListener("click", resetGame);
+if (restartBtn) {
+  restartBtn.addEventListener("click", resetGame);
+}
 
-// =======================
-// START
-// =======================
 resetGame();
 animate();
