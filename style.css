@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  background: linear-gradient(to bottom, #87ceeb, #f7f9ff 45%, #d4f2c4);
+  color: #1f2a1f;
+}
+
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  margin: 0 auto 16px;
+  max-width: 760px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border: 2px solid #1f2a1f;
+  border-radius: 10px;
+  background: #fff9c7;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+audio {
+  width: min(100%, 420px);
+  margin-bottom: 18px;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  border: 6px solid #111;
+  background: #b8e986;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.instructions {
+  margin-top: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 14px 16px;
+  border-radius: 12px;
+}
