@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emerald Path Adventure</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <h1>🌈 Emerald Path Adventure 🌈</h1>
+    <p class="subtitle">Use the arrow keys or WASD to guide Dorothy. Avoid the magic orb and make your way toward Emerald City.</p>
+
+    <div class="controls">
+      <button id="playMusicBtn" type="button">Play Music</button>
+      <button id="pauseMusicBtn" type="button">Pause Music</button>
+      <button id="restartBtn" type="button">Restart Game</button>
+    </div>
+
+    <audio id="bgMusic" controls loop preload="auto">
+      <source src="audio/wicked-theme.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <section class="instructions">
+      <h2>How to Play</h2>
+      <p>Move Dorothy with the keyboard. The glowing orb moves on its own and bounces around the screen. When Dorothy collides with it, the background flashes and both objects grow for a moment.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
