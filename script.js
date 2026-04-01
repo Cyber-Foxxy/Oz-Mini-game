@@ -12,7 +12,7 @@ const images = {
   city: new Image()
 };
 
-// Keep your original GitHub asset locations
+
 images.path.src = "images/yellow-brick-road.webp";
 images.intro.src = "images/wizard-of-oz.webp";
 images.city.src = "images/emerald-castle.jpg";
@@ -274,11 +274,11 @@ const dorothy = new CanvasObject({
 });
 
 const scarecrow = new CanvasObject({
-  x: 60,
-  y: 70,
-  width: 20,
-  height: 10,
-  pixelSize: 2,
+  x: 100,
+  y: 90,
+  width: 48,
+  height: 38,
+  pixelSize: 4,
   pixels: [
     "...7777...",
     "..777777..",
@@ -298,9 +298,9 @@ const scarecrow = new CanvasObject({
 const tinMan = new CanvasObject({
   x: 330,
   y: 85,
-  width: 18,
-  height: 8,
-  pixelSize: 2,
+  width: 48,
+  height: 38,
+  pixelSize: 4,
   pixels: [
     "...ddd...",
     "..bdddb..",
@@ -319,9 +319,9 @@ const tinMan = new CanvasObject({
 const lion = new CanvasObject({
   x: 560,
   y: 90,
-  width: 18,
-  height: 8,
-  pixelSize: 2,
+  width: 48,
+  height: 38,
+  pixelSize: 4,
   pixels: [
     "...eeee...",
     "..e4444e..",
