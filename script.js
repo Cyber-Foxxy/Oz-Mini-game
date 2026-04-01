@@ -70,6 +70,31 @@ class CanvasObject {
       this.drawRect();
     }
   }
+  function drawOrb(orb) {
+    // outer glow
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, orb.radius + 18, 0, Math.PI * 2);
+    ctx.fillStyle = orb.glowColor;
+    ctx.fill();
+
+    // middle glow
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, orb.radius + 8, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(120, 255, 120, 0.45)";
+    ctx.fill();
+
+    // core
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+    ctx.fillStyle = orb.color;
+    ctx.fill();
+
+    // bright center
+    ctx.beginPath();
+    ctx.arc(orb.x - 5, orb.y - 5, 7, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.fill();
+}
 
   drawRect() {
     const gradient = ctx.createRadialGradient(
@@ -222,6 +247,38 @@ const orb = new CanvasObject({
   speedX: 3,
   speedY: 2,
   kind: "rect"
+  // =======================
+// FLYING MONKEY OBSTACLES
+// =======================
+let monkeys = [
+    new GameObject(150, 180, 40, 40, "#5b3a29"),
+    new GameObject(620, 120, 40, 40, "#6b442f"),
+    new GameObject(500, 420, 40, 40, "#4a2d1f")
+];
+
+monkeys[0].speedX = 2;
+monkeys[0].speedY = 1.5;
+
+monkeys[1].speedX = -2.5;
+monkeys[1].speedY = 1.2;
+
+monkeys[2].speedX = 1.8;
+monkeys[2].speedY = -2;
+
+// =======================
+// GLOWING ORB ENEMY
+// =======================
+let orb = {
+    x: 650,
+    y: 450,
+    radius: 22,
+    color: "rgba(57, 255, 20, 0.95)",
+    glowColor: "rgba(57, 255, 20, 0.35)",
+    speed: 1.4
+};
+
+let playerHit = false;
+let hitTimer = 0;
 });
 
 const goal = {
@@ -240,6 +297,19 @@ function hasCollided(a, b) {
     a.x + a.width > b.x &&
     a.y < b.y + b.height &&
     a.y + a.height > b.y
+    function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function circleRectCollision(circle, rect) {
+    const closestX = clamp(circle.x, rect.x, rect.x + rect.width);
+    const closestY = clamp(circle.y, rect.y, rect.y + rect.height);
+
+    const dx = circle.x - closestX;
+    const dy = circle.y - closestY;
+
+    return (dx * dx + dy * dy) < (circle.radius * circle.radius);
+}
   );
 }
 
